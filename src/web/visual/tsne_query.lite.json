@@ -1,0 +1,92 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "T-SNE scatter plot (with query)",
+  "usermeta": {
+    "help": "Drag/scroll to pan/zoom; Hover on data point to see image and its label; Double-click anywhere to reset view.",
+    "embedOptions": {
+      "downloadFileName": "query scatter(t-sne)"
+    }
+  },
+  "width": "container",
+  "height": 400,
+  "data": {
+    "name": "data",
+    "url": "/api/tsne_query?project_id=65e26a3603ae7b44579bea2a",
+    "format": {
+      "type": "json"
+    }
+  },
+  "mark": {
+    "type": "point",
+    "filled": true
+  },
+  "params": [
+    {
+      "name": "panzoom",
+      "select": {
+        "type": "interval"
+      },
+      "bind": "scales"
+    }
+  ],
+  "encoding": {
+    "x": {
+      "field": "tsne_d1",
+      "type": "quantitative",
+      "title": "t-SNE Dimension 1"
+    },
+    "y": {
+      "field": "tsne_d2",
+      "type": "quantitative",
+      "title": "t-SNE Dimension 2"
+    },
+    "color": {
+      "field": "label",
+      "type": "nominal"
+    },
+    "shape": {
+      "field": "query",
+      "type": "nominal",
+      "scale": {
+        "range": [
+          "circle",
+          "triangle"
+        ]
+      }
+    },
+    "size": {
+      "field": "query",
+      "type": "nominal",
+      "scale": {
+        "range": [
+          20,
+          150
+        ]
+      }
+    },
+    "tooltip": [
+      {
+        "field": "image"
+      },
+      {
+        "field": "label",
+        "type": "nominal"
+      },
+      {
+        "field": "img_name",
+        "type": "nominal",
+        "title": "File"
+      }
+    ],
+    "opacity": {
+      "field": "query",
+      "type": "nominal",
+      "scale": {
+        "range": [
+          0.2,
+          0.8
+        ]
+      }
+    }
+  }
+}

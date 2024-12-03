@@ -1,0 +1,81 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Confusion matrix",
+  "usermeta": {
+    "help": ""
+  },
+  "config": {
+    "axis": {
+      "labelFontSize": 14,
+      "titleFontSize": 14
+    },
+    "legend": {
+      "labelFontSize": 14,
+      "titleFontSize": 14
+    },
+    "mark": {
+      "fontSize": 14
+    }
+  },
+  "width": "container",
+  "height": 300,
+  "data": {
+    "name": "data",
+    "format": {
+      "type": "json"
+    },
+    "url": "/confusion_matrix?run=20231207152440&model=weights_e02_best_002"
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "rect",
+        "stroke": "white"
+      },
+      "encoding": {
+        "x": {
+          "field": "y_pred",
+          "type": "nominal",
+          "title": "Predicted Class"
+        },
+        "y": {
+          "field": "y_true",
+          "type": "nominal",
+          "title": "True Class"
+        },
+        "color": {
+          "field": "count",
+          "type": "quantitative",
+          "scale": {
+            "scheme": "blues"
+          },
+          "title": "Count"
+        }
+      }
+    },
+    {
+      "mark": "text",
+      "encoding": {
+        "x": {
+          "field": "y_pred",
+          "type": "nominal"
+        },
+        "y": {
+          "field": "y_true",
+          "type": "nominal"
+        },
+        "text": {
+          "field": "count",
+          "type": "quantitative"
+        },
+        "color": {
+          "condition": {
+            "test": "datum.norm > 0.5",
+            "value": "white"
+          },
+          "value": "black"
+        }
+      }
+    }
+  ]
+}

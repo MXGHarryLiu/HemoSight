@@ -1,0 +1,121 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Raw data counts bar plot",
+  "usermeta": {
+    "help": "Hover on bars to see tooltips. ",
+    "embedOptions": {
+      "downloadFileName": "bar(class distribution)"
+    }
+  },
+  "config": {
+    "axis": {
+      "labelFontSize": 14,
+      "titleFontSize": 14
+    },
+    "legend": {
+      "labelFontSize": 14,
+      "titleFontSize": 14
+    },
+    "mark": {
+      "fontSize": 14
+    }
+  },
+  "width": "container",
+  "height": 300,
+  "data": {
+    "name": "data",
+    "format": {
+      "type": "json"
+    },
+    "url": ""
+  },
+  "transform": [
+    {
+      "aggregate": [
+        {
+          "op": "count",
+          "as": "count"
+        }
+      ],
+      "groupby": [
+        "label",
+        "is_public"
+      ]
+    },
+    {
+      "joinaggregate": [
+        {
+          "op": "sum",
+          "field": "count",
+          "as": "total"
+        }
+      ],
+      "groupby": [
+        "label"
+      ]
+    },
+    {
+      "calculate": "datum.count/datum.total",
+      "as": "percent"
+    }
+  ],
+  "layer": [
+    {
+      "mark": "bar",
+      "encoding": {
+        "x": {
+          "field": "label",
+          "type": "nominal",
+          "title": "Label"
+        },
+        "y": {
+          "field": "count",
+          "type": "quantitative",
+          "title": "Count"
+        },
+        "color": {
+          "field": "is_public",
+          "type": "nominal"
+        },
+        "tooltip": [
+          {
+            "field": "total",
+            "type": "quantitative",
+            "title": "Total"
+          },
+          {
+            "field": "count",
+            "type": "quantitative",
+            "title": "Count"
+          },
+          {
+            "field": "percent",
+            "type": "quantitative",
+            "title": "Percent",
+            "format": ".2%"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "dy": -10
+      },
+      "encoding": {
+        "text": {
+          "field": "total",
+          "type": "quantitative"
+        },
+        "x": {
+          "field": "label",
+          "type": "nominal"
+        },
+        "y": {
+          "field": "total",
+          "type": "quantitative"
+        }
+      }
+    }
+  ]
+}

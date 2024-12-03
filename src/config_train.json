@@ -1,0 +1,44 @@
+{
+    "name": "SupDO0.2D0FzBn_450",
+    "loader": {
+        "file_list": "20230926_DIB.csv",
+        "split_seed": 0,
+        "test_ratio": 0.1,
+        "kfold": 5,
+        "i_kfold": 0
+    },
+    "generator": {
+        "name": "supervised",
+        "encoder_name": "efficientnetv2b0",
+        "batch_size": 32,
+        "img_width": 224,
+        "img_height": 224,
+        "n": 450
+    },
+    "model": {
+        "name": "supervised",
+        "model": {
+            "encoder_name": "efficientnetv2b0",
+            "training": false,
+            "n_classes": 9,
+            "dense_units": 0,
+            "bn": false,
+            "top_dropout_rate": 0.2,
+            "weights": ""
+        },
+        "train": [
+            {
+                "fit": {
+                    "epoch": 30,
+                    "batch_size": 32
+                },
+                "freeze_until": "all",
+                "freeze_bn": true,
+                "optimizer": {
+                    "name": "Adam",
+                    "learning_rate": 0.001
+                }
+            }
+        ]
+    }
+}

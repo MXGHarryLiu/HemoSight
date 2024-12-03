@@ -1,0 +1,5 @@
+derived
+mongodb
+*.pyc
+**/.DS_Store
+**/._*

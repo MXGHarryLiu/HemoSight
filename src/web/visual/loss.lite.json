@@ -1,0 +1,89 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Loss line plot",
+  "usermeta": {
+    "help": "Hover on data point to see values; Click legend to toggle series visibility.",
+    "embedOptions": {
+      "downloadFileName": "line(loss)"
+    }
+  },
+  "config": {
+    "axis": {
+      "labelFontSize": 14,
+      "titleFontSize": 14
+    },
+    "legend": {
+      "labelFontSize": 14,
+      "titleFontSize": 14
+    }
+  },
+  "width": "container",
+  "height": 400,
+  "data": {
+    "name": "data",
+    "url": "/loss?run=20231207152440",
+    "format": {
+      "type": "json"
+    }
+  },
+  "mark": {
+    "type": "line",
+    "point": {
+      "size": 20
+    },
+    "strokeWidth": 2
+  },
+  "encoding": {
+    "x": {
+      "field": "epoch",
+      "type": "quantitative",
+      "title": "Epoch"
+    },
+    "y": {
+      "field": "loss",
+      "type": "quantitative",
+      "title": "Loss"
+    },
+    "color": {
+      "field": "stage",
+      "type": "nominal",
+      "title": "Stage"
+    },
+    "tooltip": [
+      {
+        "field": "stage",
+        "type": "nominal",
+        "title": "Stage"
+      },
+      {
+        "field": "epoch",
+        "type": "quantitative",
+        "title": "Epoch"
+      },
+      {
+        "field": "loss",
+        "type": "quantitative",
+        "title": "Loss"
+      }
+    ],
+    "opacity": {
+      "condition": {
+        "param": "stageToggle",
+        "value": 1
+      },
+      "value": 0.2
+    }
+  },
+  "params": [
+    {
+      "name": "stageToggle",
+      "select": {
+        "type": "point",
+        "fields": [
+          "stage"
+        ]
+      },
+      "bind": "legend"
+    }
+  ]
+}

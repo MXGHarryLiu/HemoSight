@@ -1,0 +1,107 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "K-Nearest Neighbors scatter plot of the query image",
+  "usermeta": {
+    "help": "Drag/scroll to pan/zoom; Double-click anywhere to reset view.",
+    "embedOptions": {
+      "downloadFileName": "knn scatter plot"
+    }
+  },
+  "config": {
+    "axis": {
+      "labelFontSize": 14,
+      "titleFontSize": 14
+    },
+    "legend": {
+      "labelFontSize": 14,
+      "titleFontSize": 14
+    }
+  },
+  "width": "container",
+  "height": 300,
+  "data": {
+    "name": "data",
+    "url": "http://localhost:4001/query_knn?image_id=65f89fcdcb02bd557a37276c",
+    "format": {
+      "type": "json"
+    }
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "image",
+        "width": 50,
+        "height": 50
+      },
+      "params": [
+        {
+          "name": "panzoom",
+          "select": {
+            "type": "interval"
+          },
+          "bind": "scales"
+        }
+      ],
+      "encoding": {
+        "x": {
+          "field": "tsne_d1",
+          "type": "quantitative",
+          "scale": {
+            "zero": false
+          },
+          "title": "t-SNE Dimension 1"
+        },
+        "y": {
+          "field": "tsne_d2",
+          "type": "quantitative",
+          "scale": {
+            "zero": false
+          },
+          "title": "t-SNE Dimension 2"
+        },
+        "url": {
+          "field": "image",
+          "type": "nominal"
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "square",
+        "filled": false,
+        "strokeWidth": 2,
+        "size": 2500
+      },
+      "encoding": {
+        "x": {
+          "field": "tsne_d1",
+          "type": "quantitative"
+        },
+        "y": {
+          "field": "tsne_d2",
+          "type": "quantitative"
+        },
+        "color": {
+          "field": "type",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "current", 
+              "query",
+              "reference"
+            ],
+            "range": [
+              "red",
+              "green",
+              "transparent"
+            ]
+          },
+          "legend": {
+            "title": "Type",
+            "orient": "top"
+          }
+        }
+      }
+    }
+  ]
+}

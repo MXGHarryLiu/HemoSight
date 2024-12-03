@@ -1,0 +1,46 @@
+{
+    "name": "AdamDO0.2D0FzBnTest",
+    "loader": {
+        "file_list": "20230926_DIB.csv",
+        "split_seed": 0,
+        "test_ratio": 0.1,
+        "kfold": 1,
+        "i_kfold": 0
+    },
+    "generator": {
+        "name": "siameseonline",
+        "batch_size": 100,
+        "supervised": false,
+        "img_width": 224,
+        "img_height": 224
+    },
+    "model": {
+        "name": "siamese",
+        "model": {
+            "encoder_name": "efficientnetv2b0",
+            "training": false,
+            "dense_units": 0,
+            "bn": false,
+            "top_dropout_rate": 0.2,
+            "weights": ""
+        },
+        "train": [
+            {
+                "fit": {
+                    "epoch": 30,
+                    "batch_size": 100
+                },
+                "freeze_until": "",
+                "freeze_bn": true,
+                "optimizer": {
+                    "name": "Adam",
+                    "learning_rate": 1e-05
+                },
+                "loss": {
+                    "name": "tripletsemihard",
+                    "margin": 0.5
+                }
+            }
+        ]
+    }
+}

@@ -1,0 +1,28 @@
+{
+    "note": "",
+    "categories": [
+        "label",
+        "cell_size",
+        "cell_shape",
+        "nucleus_shape",
+        "nuclear_cytoplasmic_ratio",
+        "chromatin_density",
+        "cytoplasm_vacuole",
+        "cytoplasm_texture",
+        "cytoplasm_colour",
+        "granule_type",
+        "granule_colour",
+        "granularity"
+    ],
+    "classifier": {
+        "name": "SVC",
+        "kernel": "linear"
+    },
+    "support": {
+        "n": [18, 45, 90, 180, 450, 900, 1800, 4500, 9000, null],
+        "sampling": "stratified",
+        "active_learning": {
+            "mode": "off"
+        }
+    }
+}

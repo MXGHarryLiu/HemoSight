@@ -1,0 +1,28 @@
+/* Vega */
+#vg-tooltip-element img {
+    max-width: 150px;
+    max-height: 150px;
+}
+
+#vg-tooltip-element {
+    font-size: 14px;
+}
+
+/* Upload */
+.thumbnail-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    max-height: 500px;
+    overflow-y: auto;
+}
+.thumbnail-container figure {
+    /* background-color: blue; */
+    max-width: 150px;
+    padding: 0 5px 0 5px;
+    margin: 0 0 5px 0;
+}
+.thumbnail-container figure img {
+    margin: 0;
+}

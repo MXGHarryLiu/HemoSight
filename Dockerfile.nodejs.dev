@@ -1,0 +1,11 @@
+FROM node:20.11-bookworm
+
+# ENV DOCKER=true
+
+WORKDIR /src
+
+COPY /frontend/package.json .
+
+RUN npm install
+
+CMD ["npm", "run", "dev"]

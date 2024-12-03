@@ -1,0 +1,90 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "T-SNE scatter plot",
+  "usermeta": {
+    "help": "Drag/scroll to pan/zoom; Hover on data point to see image and its label; Click legend to toggle series visibility; Double-click anywhere to reset view.",
+    "embedOptions": {
+      "downloadFileName": "scatter(t-sne)"
+    }
+  },
+  "config": {
+    "axis": {
+      "labelFontSize": 14,
+      "titleFontSize": 14
+    },
+    "legend": {
+      "labelFontSize": 14,
+      "titleFontSize": 14
+    }
+  },
+  "width": "container",
+  "height": 400,
+  "data": {
+    "name": "data",
+    "url": "/tsne?run=20231207152440&model=weights_e02_best_002",
+    "format": {
+      "type": "json"
+    }
+  },
+  "mark": {
+    "type": "point",
+    "filled": true,
+    "size": 20
+  },
+  "params": [
+    {
+      "name": "stageToggle",
+      "select": {
+        "type": "point",
+        "fields": [
+          "label"
+        ]
+      },
+      "bind": "legend"
+    },
+    {
+      "name": "panzoom",
+      "select": {
+        "type": "interval"
+      },
+      "bind": "scales"
+    }
+  ],
+  "encoding": {
+    "x": {
+      "field": "tsne_d1",
+      "type": "quantitative",
+      "title": "t-SNE Dimension 1"
+    },
+    "y": {
+      "field": "tsne_d2",
+      "type": "quantitative",
+      "title": "t-SNE Dimension 2"
+    },
+    "color": {
+      "field": "label",
+      "type": "nominal"
+    },
+    "tooltip": [
+      {
+        "field": "image"
+      },
+      {
+        "field": "label",
+        "type": "nominal"
+      },
+      {
+        "field": "img_name",
+        "type": "nominal",
+        "title": "File"
+      }
+    ],
+    "opacity": {
+      "condition": {
+        "param": "stageToggle",
+        "value": 0.8
+      },
+      "value": 0.05
+    }
+  }
+}

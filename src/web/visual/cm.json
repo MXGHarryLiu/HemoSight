@@ -1,0 +1,237 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v5.json",
+  "description": "Confusion matrix",
+  "usermeta": {
+    "help": "Click checkbox to toggle normalization; Hover on data points to see values. ",
+    "embedOptions": {
+      "downloadFileName": "heatmap(confusion matrix)"
+    }
+  },
+  "config": {
+    "axis": {
+      "labelFontSize": 14,
+      "titleFontSize": 14
+    },
+    "legend": {
+      "labelFontSize": 14,
+      "titleFontSize": 14
+    },
+    "mark": {
+      "fontSize": 14
+    }
+  },
+  "autosize": {
+    "type": "fit-x",
+    "contains": "padding"
+  },
+  "background": "white",
+  "padding": 5,
+  "height": 300,
+  "data": [
+    {
+      "name": "data",
+      "url": "/confusion_matrix?run=20231207152440&model=weights_e02_best_002",
+      "format": {
+        "type": "json"
+      }
+    }
+  ],
+  "signals": [
+    {
+      "name": "width",
+      "init": "isFinite(containerSize()[0]) ? containerSize()[0] : 200",
+      "on": [
+        {
+          "update": "isFinite(containerSize()[0]) ? containerSize()[0] : 200",
+          "events": "window:resize"
+        }
+      ]
+    },
+    {
+      "name": "is_norm",
+      "value": true,
+      "bind": {
+        "input": "checkbox",
+        "name": "Normalized"
+      }
+    }
+  ],
+  "marks": [
+    {
+      "name": "rect",
+      "type": "rect",
+      "from": {
+        "data": "data"
+      },
+      "encode": {
+        "update": {
+          "stroke": {
+            "value": "white"
+          },
+          "fill": {
+            "scale": "color",
+            "field": {
+              "signal": "is_norm ? 'norm' : 'count'"
+            }
+          },
+          "x": {
+            "scale": "x",
+            "field": "y_pred"
+          },
+          "width": {
+            "signal": "max(0.25, bandwidth('x'))"
+          },
+          "y": {
+            "scale": "y",
+            "field": "y_true"
+          },
+          "height": {
+            "signal": "max(0.25, bandwidth('y'))"
+          },
+          "tooltip": {
+            "signal": "datum['count'] + ' (' + format(datum['norm'], '.4%') + ')'"
+          }
+        }
+      }
+    },
+    {
+      "name": "text",
+      "type": "text",
+      "from": {
+        "data": "data"
+      },
+      "encode": {
+        "update": {
+          "fill": [
+            {
+              "test": "datum.norm > 0.5",
+              "value": "white"
+            },
+            {
+              "value": "black"
+            }
+          ],
+          "x": {
+            "scale": "x",
+            "field": "y_pred",
+            "band": 0.5
+          },
+          "y": {
+            "scale": "y",
+            "field": "y_true",
+            "band": 0.5
+          },
+          "text": {
+            "signal": "is_norm ? format(datum['norm'], '.1%') : datum['count']"
+          },
+          "align": {
+            "value": "center"
+          },
+          "baseline": {
+            "value": "middle"
+          },
+          "fontSize": {
+            "value": 14
+          }
+        }
+      }
+    }
+  ],
+  "scales": [
+    {
+      "name": "x",
+      "type": "band",
+      "domain": {
+        "fields": [
+          {
+            "data": "data",
+            "field": "y_pred"
+          },
+          {
+            "data": "data",
+            "field": "y_pred"
+          }
+        ],
+        "sort": true
+      },
+      "range": [
+        0,
+        {
+          "signal": "width"
+        }
+      ],
+      "paddingInner": 0,
+      "paddingOuter": 0
+    },
+    {
+      "name": "y",
+      "type": "band",
+      "domain": {
+        "fields": [
+          {
+            "data": "data",
+            "field": "y_true"
+          },
+          {
+            "data": "data",
+            "field": "y_true"
+          }
+        ],
+        "sort": true
+      },
+      "range": [
+        0,
+        {
+          "signal": "height"
+        }
+      ],
+      "paddingInner": 0,
+      "paddingOuter": 0
+    },
+    {
+      "name": "color",
+      "type": "linear",
+      "domain": {
+        "data": "data",
+        "field": {
+          "signal": "is_norm ? 'norm' : 'count'"
+        }
+      },
+      "range": {
+        "scheme": "blues"
+      },
+      "interpolate": "rgb",
+      "zero": false
+    }
+  ],
+  "axes": [
+    {
+      "scale": "x",
+      "orient": "bottom",
+      "grid": false,
+      "title": "Predicted Class",
+      "labelAlign": "right",
+      "labelAngle": 270,
+      "labelBaseline": "middle",
+      "zindex": 1
+    },
+    {
+      "scale": "y",
+      "orient": "left",
+      "grid": false,
+      "title": "True Class",
+      "zindex": 1
+    }
+  ],
+  "legends": [
+    {
+      "title": {
+        "signal": "is_norm ? 'Normalized Count' : 'Count'"
+      },
+      "fill": "color",
+      "gradientLength": {
+        "signal": "clamp(height, 64, 200)"
+      }
+    }
+  ]
+}

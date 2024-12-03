@@ -1,0 +1,103 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Query image sum of probability bar plot",
+  "usermeta": {
+    "help": "Hover on bars to see tooltips. ",
+    "embedOptions": {
+      "downloadFileName": "query class probability"
+    }
+  },
+  "config": {
+    "axis": {
+      "labelFontSize": 14,
+      "titleFontSize": 14
+    },
+    "legend": {
+      "labelFontSize": 14,
+      "titleFontSize": 14
+    },
+    "mark": {
+      "fontSize": 14
+    }
+  },
+  "width": "container",
+  "height": 300,
+  "data": {
+    "name": "data",
+    "values": [
+      {
+        "category": "A",
+        "probability": 0.5
+      },
+      {
+        "category": "B",
+        "probability": 0.5
+      },
+      {
+        "category": "A",
+        "probability": 0.2
+      },
+      {
+        "category": "B",
+        "probability": 0.8
+      }
+    ]
+  },
+  "layer": [
+    {
+      "mark": "bar",
+      "encoding": {
+        "x": {
+          "field": "category",
+          "type": "nominal",
+          "title": "Label"
+        },
+        "y": {
+          "aggregate": "sum",
+          "field": "probability",
+          "type": "quantitative",
+          "axis": {
+            "title": "Sum of probability"
+          }
+        },
+        "tooltip": [
+          {
+            "field": "category",
+            "type": "nominal",
+            "title": "Label"
+          },
+          {
+            "aggregate": "sum",
+            "field": "probability",
+            "type": "quantitative",
+            "title": "Sum of probability"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "dy": -10
+      },
+      "encoding": {
+        "text": {
+          "aggregate": "sum",
+          "field": "probability",
+          "type": "quantitative",
+          "format": ".2f"
+        },
+        "x": {
+          "field": "category",
+          "type": "nominal",
+          "title": "Label"
+        },
+        "y": {
+          "aggregate": "sum",
+          "field": "probability",
+          "type": "quantitative"
+        }
+      }
+    }
+  ]
+}

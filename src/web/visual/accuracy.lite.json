@@ -1,0 +1,148 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Accuracy line plot",
+  "usermeta": {
+    "help": "Hover on data points to see values. ",
+    "embedOptions": {
+      "downloadFileName": "line(accuracy)"
+    }
+  },
+  "config": {
+    "axis": {
+      "labelFontSize": 14,
+      "titleFontSize": 14
+    },
+    "legend": {
+      "labelFontSize": 14,
+      "titleFontSize": 14
+    },
+    "mark": {
+      "fontSize": 14
+    }
+  },
+  "width": "container",
+  "data": {
+    "name": "data",
+    "url": "/accuracy?run=20231207152440&model=weights_e02_best_002",
+    "format": {
+      "type": "json"
+    }
+  },
+  "layer": [
+    {
+      "transform": [
+        {
+          "filter": "datum['label_count'] !== 0"
+        }
+      ],
+      "mark": {
+        "type": "line",
+        "point": true,
+        "color": "steelblue",
+        "tooltip": true
+      },
+      "encoding": {
+        "x": {
+          "field": "label_count",
+          "type": "quantitative",
+          "scale": {
+            "type": "log",
+            "domainMin": 18
+          },
+          "title": "Label count"
+        },
+        "y": {
+          "field": "accuracy",
+          "type": "quantitative",
+          "title": "Accuracy",
+          "scale": {
+            "domainMin": 0,
+            "domainMax": 1
+          }
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum['label_count'] == 0"
+        }
+      ],
+      "mark": {
+        "type": "rule",
+        "color": "steelblue",
+        "strokeDash": [
+          5,
+          5
+        ],
+        "strokeWidth": 2
+      },
+      "encoding": {
+        "y": {
+          "field": "accuracy",
+          "type": "quantitative"
+        },
+        "tooltip": [
+          {
+            "field": "accuracy",
+            "type": "quantitative",
+            "title": "Accuracy (use all labels)"
+          }
+        ]
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum['label_count'] == 0"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "dx": {
+          "expr": "width/2"
+        },
+        "dy": -5,
+        "baseline": "bottom",
+        "align": "right"
+      },
+      "encoding": {
+        "text": {
+          "field": "accuracy",
+          "type": "quantitative",
+          "format": ".4f"
+        },
+        "y": {
+          "field": "accuracy",
+          "type": "quantitative",
+          "title": "Accuracy"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum['label_count'] == 0"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "dx": {
+          "expr": "-width/2 + 5"
+        },
+        "dy": -5,
+        "baseline": "bottom",
+        "align": "left"
+      },
+      "encoding": {
+        "text": {
+          "value": "Accuracy (use all labels)"
+        },
+        "y": {
+          "field": "accuracy",
+          "type": "quantitative"
+        }
+      }
+    }
+  ]
+}

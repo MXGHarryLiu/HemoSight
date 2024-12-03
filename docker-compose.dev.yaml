@@ -1,0 +1,56 @@
+version: '3.8'
+services:
+  hematology-mongodb:
+    container_name: hematology-mongodb
+    restart: always
+    image: mongo:7.0.6
+    ports:
+      - "4000:27017"
+    volumes:
+      - "./mongodb:/data/db"
+      - "./rs-initiate.js:/docker-entrypoint-initdb.d/rs-initiate.js"
+    command: ["--replSet", "rs0", "--bind_ip_all"]
+  hematology-fastapi:
+    container_name: hematology-fastapi
+    restart: always
+    image: hematology-fastapi:dev
+    build:
+      context: .
+      dockerfile: Dockerfile.fastapi.dev
+    ports:
+      - "4001:80"
+    volumes:
+      - "./src:/src"
+      - "./derived:/derived"
+      - "D:/Drive/Data/Hematology:/data"
+    depends_on:
+      - hematology-mongodb
+  hematology-nodejs:
+    container_name: hematology-nodejs
+    restart: always
+    image: hematology-nodejs:dev
+    build:
+      context: .
+      dockerfile: Dockerfile.nodejs.dev
+    ports:
+      - "4002:3000"
+    volumes:
+      - "./frontend:/src"
+      - /src/node_modules
+    depends_on:
+      - hematology-fastapi
+  hematology-worker:
+    container_name: hematology-worker
+    restart: always
+    image: hematology-worker:dev
+    build:
+      context: .
+      dockerfile: Dockerfile.worker.dev
+    ports:
+      - "4003:80"
+    volumes:
+      - "./src:/src"
+      - "./derived:/derived"
+      - "D:/Drive/Data/Hematology:/data"
+    depends_on:
+      - hematology-mongodb

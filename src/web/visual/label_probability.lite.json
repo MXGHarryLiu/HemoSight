@@ -1,0 +1,70 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Label probability bar plot",
+  "usermeta": {
+    "help": "Hover on bars to see tooltip.",
+    "embedOptions": {
+      "downloadFileName": "label probability"
+    }
+  },
+  "config": {
+    "axis": {
+      "labelFontSize": 14
+    },
+    "legend": {
+      "labelFontSize": 14,
+      "titleFontSize": 14
+    }
+  },
+  "height": 30,
+  "data": {
+    "name": "data",
+    "values": [
+      {
+        "label": "class",
+        "probability": 1
+      }
+    ]
+  },
+  "title": "Probability",
+  "mark": {
+    "type": "bar"
+  },
+  "encoding": {
+    "x": {
+      "field": "probability",
+      "aggregate": "sum",
+      "axis": {
+        "title": null
+      },
+      "scale": {
+        "domain": [
+          0,
+          1
+        ]
+      }
+    },
+    "color": {
+      "field": "label",
+      "type": "nominal",
+      "scale": {
+        "scheme": "category20"
+      }
+    },
+    "tooltip": [
+      {
+        "field": "label",
+        "type": "nominal"
+      },
+      {
+        "field": "probability",
+        "type": "quantitative"
+      }
+    ],
+    "order": {
+      "field": "probability",
+      "type": "quantitative",
+      "sort": "descending"
+    }
+  }
+}
